@@ -1,6 +1,9 @@
 {% assign author = page.author | default: page.authors[0] | default: site.author %}
-{% assign author = site.data.authors[author] | default: author %}
-
+<!--{% assign author = site.data.authors[author] | default: author %}-->
+{% if !author %} <!-- Check for falsey  if so: use each item from the site.authors (lives in _config.yml) -->
+  {% for author in site.data.authors %}
+  {% assign usingGlobal = true %}
+{% endif %}
 <div itemscope itemtype="https://schema.org/Person">
 
   {% if author.avatar %}
@@ -261,3 +264,7 @@
     </ul>
   </div>
 </div>
+
+{% if useGlobal %}
+  {% endfor %}
+{% endif %}
